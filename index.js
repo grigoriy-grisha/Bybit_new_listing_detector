@@ -1,5 +1,5 @@
-import {runSpot} from "./spot";
-import {runDerivatives} from "./derivatives";
+const {runSpot} = require("./spot");
+const {runDerivatives} = require("./derivatives");
 
 runSpot()
 runDerivatives()
