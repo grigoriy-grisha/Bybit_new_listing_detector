@@ -5,7 +5,6 @@ const client = new RestClientV5({
     key: process.env.KEY,
     secret: process.env.SECRET
 });
-
 function findCommonElementsInArray(arr1, arr2) {
     return arr2.filter(item1 => !arr1.find(item2 => item2.symbol === item1.symbol));
 }
@@ -72,7 +71,7 @@ async function runDerivatives() {
             }
         }
         list = response.result.list
-        await wait(80000)
+        await wait(500)
     }
 }
 
