@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  new_listing_app:
+    build: .
+    env_file:
+      - .env
