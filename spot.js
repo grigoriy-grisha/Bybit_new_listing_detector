@@ -64,27 +64,32 @@ async function getBalanceCoin(symbol) {
 async function runSpot() {
     console.log("___START_SPOT___")
     while (true) {
-        const response = await client
-            .getInstrumentsInfo({
-                category: 'spot',
-            })
+        try {
+            const response = await client
+                .getInstrumentsInfo({
+                    category: 'spot',
+                })
 
-        if (list.length === 0) {
+            if (list.length === 0) {
+                list = response.result.list
+                continue
+            }
+
+            const values = findCommonElementsInArray(list, response.result.list)
+            if (values.length !== 0) {
+                console.log("____FOUND_NEW_PAIR_SPOT____")
+                console.log(values)
+                console.log("____FOUND_NEW_PAIR_SPOT_DATE____")
+                console.log(new Date())
+                console.log("____START_TRADING_SPOT____")
+                await handleTrade({symbol: values[0].symbol, qty: "30"})
+            }
             list = response.result.list
-            continue
+            await wait(500)
+        } catch (e) {
+            console.log("____ERROR_SPOT____")
+            console.log(e)
         }
-
-        const values = findCommonElementsInArray(list, response.result.list)
-        if (values.length !== 0) {
-            console.log("____FOUND_NEW_PAIR_SPOT____")
-            console.log(values)
-            console.log("____FOUND_NEW_PAIR_SPOT_DATE____")
-            console.log(new Date())
-            console.log("____START_TRADING_SPOT____")
-            await handleTrade({symbol: values[0].symbol, qty: "30"})
-        }
-        list = response.result.list
-        await wait(500)
     }
 }
 
